@@ -47,9 +47,24 @@ span[class^="clanTag__"] {
   display: none;
 }
 
-/* Hides the send a gift button */
+/* Debloat the message bar */
 div[aria-label="Send a gift"] {
     display: none;
+}
+
+.expression-picker-chat-input-button:has(div[aria-label="Open sticker picker"]) {
+    display: none;
+    size: 0px;
+}
+
+.expression-picker-chat-input-button:has(div[aria-label="Select emoji"]) {
+    display: none;
+    size: 0px;
+}
+
+div[class^="channelAppLauncher"] {
+    display: none;
+    size: 0px;
 }
 
 /* Hide vc hang statuses entirely */
