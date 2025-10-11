@@ -28,11 +28,6 @@ span[class^="userTagUsername__"] {
   }
 }
 
-/* Hide clan tags, Discord is removing them soon. */
-span[class^="clanTag__"] {
-  display: none;
-}
-
 /* Remove the "invite to server" button when right clicking on a user */
 #user-context-invite-to-server {
   display: none;
