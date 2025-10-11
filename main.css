@@ -48,8 +48,8 @@ span[class^="clanTag__"] {
 }
 
 /* Hides the send a gift button */
-button[aria-label="Send a gift"] {
-  display: none;
+div[aria-label="Send a gift"] {
+    display: none;
 }
 
 /* Hide vc hang statuses entirely */
