@@ -61,21 +61,3 @@ div[class^="channelAppLauncher"] {
     display: none;
     size: 0px;
 }
-
-/* Hide vc hang statuses entirely */
-/* [class*=iconGroup]:has([class*=hangStatusIcon], [d*='M13 3a1'], [class*=gameIcon]) {
-  display: none;
-} */
-
-/* Fix inconsistent padding in user area */
-/* section[aria-label="User area"] > div[class^="container__"] {
-  height: auto;
-} */
-
-/* 
- * Hide usernames when using discord quick-search 
- * TODO: Issue: when applied, names in the member list do not show.
- */
-/* span[class^="username__"] {
-    display: none;
-} */
