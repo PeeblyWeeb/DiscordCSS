@@ -2,6 +2,7 @@
 :root {
     --server-sidebar-width: 72px;
     --custom-font-family: Torus;
+    /* --custom-font-family: unset !important; */
 }
 
 @font-face {
@@ -46,7 +47,7 @@ nav[aria-label*="(server)"] {
     --background-base-lowest: transparent !important;
 }
 
-section[aria-label*="User area"] div[class*="activityPanel"] {
+section[aria-label*="User status and settings"] div[class*="activityPanel"] {
     background-color: transparent;
 }
 
@@ -105,7 +106,7 @@ nav[aria-label="Private channels"] {
 }
 
 /* squish user area back into dm list */
-section[aria-label="User area"] {
+section[aria-label="User status and settings"] {
 
     width: calc(100% - var(--server-sidebar-width));
     bottom: 0px;
@@ -124,7 +125,7 @@ div[data-list-id*="private-channels"] {
 }
 
 /* hide unused buttons from the user area */
-section[aria-label="User area"] div[class*="actionButtons"] {
+section[aria-label="User status and settings"] div[class*="actionButtons"] {
     :nth-child(5) {
         /* Start an activity */
         display: none;
@@ -137,11 +138,11 @@ section[aria-label="User area"] div[class*="actionButtons"] {
 }
 
 /* make the profile section of the user area fill the whole container */
-section[aria-label="User area"]>div[class*="container"] {
+section[aria-label="User status and settings"]>div[class*="container"] {
     padding: 0;
     gap: 0;
 
-    div[aria-label="Set Status"] {
+    div[class*="accountPopoutButtonWrapper"] {
         -webkit-margin-start: 0;
         margin-inline-start: 0;
 
@@ -164,7 +165,7 @@ section[aria-label="User area"]>div[class*="container"] {
 }
 
 /* mute and deafen buttons overlay on profile */
-section[aria-label="User area"] div[class*="buttons"] {
+section[aria-label="User status and settings"] div[class*="buttons"] {
     pointer-events: none;
     gap: 0;
 
