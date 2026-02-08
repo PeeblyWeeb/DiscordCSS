@@ -12,13 +12,10 @@
     font-style: normal;
 }
 
-* {
-    font-family: var(--custom-font-family);
-}
-
 /*** we love squares ***/
 * {
     border-radius: 0px !important;
+    font-family: var(--custom-font-family);
 }
 /* make profile pictures square in calls */
 foreignObject[mask="url(#svg-mask-avatar-default)"] {
@@ -74,14 +71,19 @@ div[class*="page"] {
 div[class*="callContainer"] {
     --black: transparent !important;
     background: transparent !important;
-    filter: drop-shadow(0px 0px 5px black)
+    /* filter: drop-shadow(0px 0px 5px black); */
 }
 div[class*="wrapper"]:has(div[class*="callContainer"]) {
-    --background-surface-high: rgba(0, 0, 0, 0.4) !important;
+    --background-base-lowest: rgba(0, 0, 0, 0.4) !important;
 }
-/* transparency: user settings*/
+/* transparency: user settings */
 div[data-mana-component="layer-modal"] {
     backdrop-filter: blur(16px);
+}
+/* transparency: non-nitro profile popouts */
+div[class*="user-profile-modal-v2"] {
+    /* this value is color picked and should be the normal default */
+    --background-base-lower: #070709 !important;
 }
 
 /* make the server sidebar take up all vertical space */
@@ -107,17 +109,17 @@ nav[aria-label="Private channels"] {
 
 /* squish user area back into dm list */
 section[aria-label="User status and settings"] {
-
     width: calc(100% - var(--server-sidebar-width));
     bottom: 0px;
     left: var(--server-sidebar-width);
 
-    border-left: none;
+    /* border-left: none; */
     border-right: none;
     border-bottom: none;
 
     /* keep alignment now that the left border is gone */
-    margin-left: 1px;
+    /* margin-left: 1px; */
+    border-left: transparent 2px solid
 }
 
 div[data-list-id*="private-channels"] {
@@ -165,20 +167,49 @@ section[aria-label="User status and settings"]>div[class*="container"] {
 }
 
 /* mute and deafen buttons overlay on profile */
+section[aria-label="User status and settings"] {
+    --animation-speed: 150ms;
+    svg[class*="avatarDecorationContainer"] {
+        transition: opacity var(--animation-speed), transform var(--animation-speed);
+    }
+    &:has(button[aria-checked="true"]) {
+        svg[class*="avatarDecorationContainer"] {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+    }
+}
 section[aria-label="User status and settings"] div[class*="buttons"] {
     pointer-events: none;
     gap: 0;
 
-    button[aria-label="Mute"],
-    button[aria-label="Deafen"] {
-        position: absolute;
-        left: 12px;
-        top: 12px;
-        transition: all 150ms;
+    &:has(button[aria-label="Deafen"][aria-checked="true"]) {
+        button[aria-label="Mute"] div[class*="lottieIcon"] {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
 
+    button[aria-label="Mute"] {
         &[aria-checked="true"] {
             backdrop-filter: brightness(30%);
         }
+        div[class*="lottieIcon"] {
+            transition: opacity var(--animation-speed), transform var(--animation-speed) ease-out;
+        }
+    }
+
+    button[aria-label="Deafen"] {
+        background: transparent;
+    }
+
+    button[aria-label="Mute"],
+    button[aria-label="Deafen"] {
+        color: var(--icon-voice-muted) !important;
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        transition: all var(--animation-speed);
 
         &[aria-checked="false"] {
             opacity: 0%;
@@ -221,9 +252,42 @@ ol[data-list-id*="chat-messages"] div[class*="scrollerSpacer"] {
     height: 24px;
 }
 
-/* fix double border at the top of the call container and instead apply it to the bottom*/
-div[class*="callContainer"] {
-    border-top: 1px solid var(--app-frame-border);
-    /* border-bottom: 1px solid var(--app-frame-border); */
+/* fix double border at the top of the call container in dms and instead apply it to the bottom*/
+div[class*="callContainer"]:has(div[class*="videoFrame"]),
+div[class*="callContainer"]:has(div[class*="voiceCallWrapper"]) {
+    border-top: none !important;
     box-shadow: var(--shadow-border), var(--shadow-high);
 }
+
+/* status border */
+/* svg:has(*[mask="url(#svg-mask-avatar-status-round-32)"]) {
+    g {
+        clip-path: polygon(
+            0% 0%,
+            0% 100%,
+            1px 100%,
+            1px 1px,
+            32px 1px,
+            32px 32px,
+            1px 32px,
+            1px 100%,
+            100% 100%,
+            100% 0%
+        );
+    }
+    *[mask="url(#svg-mask-avatar-status-round-32)"] {
+        mask: none;
+    }
+    *[mask*="url(#svg-mask-status-"] {
+        z-index: 0 !important;
+        --border-size: 1px;
+
+        mask: none;
+        width: calc(32px + var(--border-size));
+        height: calc(32px + var(--border-size));
+        x: 0;
+        y: 0;
+    }
+} */
+
+
