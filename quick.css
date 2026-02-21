@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 /* config */
 :root {
     --server-sidebar-width: 72px;
-    --custom-font-family: Torus;
+    --custom-font-family: "Torus";
     /* --custom-font-family: unset !important; */
 }
 
@@ -233,7 +236,6 @@ form[class*="formWithLoadedChatInput"] {
     margin-top: 0px !important;
     padding-inline: 0;
 }
-
 form[class*="formWithLoadedChatInput"] div[class*="channelTextArea"] {
     margin-bottom: 0;
 
@@ -247,7 +249,6 @@ form[class*="formWithLoadedChatInput"] div[class*="channelTextArea"] {
         width: 100%;
     }
 }
-
 ol[data-list-id*="chat-messages"] div[class*="scrollerSpacer"] {
     height: 24px;
 }
@@ -257,6 +258,36 @@ div[class*="callContainer"]:has(div[class*="videoFrame"]),
 div[class*="callContainer"]:has(div[class*="voiceCallWrapper"]) {
     border-top: none !important;
     box-shadow: var(--shadow-border), var(--shadow-high);
+}
+
+/* hide unwanted chat bar buttons */
+div[class*="buttons"] {
+    div[class*="app-launcher-entrypoint"],
+    div:has(div[aria-label="Send a gift"]) {
+        display: none;
+    }
+    div[class*="expression-picker-chat-input-button"] {
+        &:has(div[aria-label="Add Emoji"]),
+        &:has(div[aria-label="Open sticker picker"]) {
+            display: none;
+        }
+    }
+}
+
+/* hide real usernames until hover */
+span[class*="userTagUsername"]:not(:hover) {
+    position: relative;
+    visibility: hidden;
+    &::after {
+        width: 100%;
+        text-align: center;
+        top: 0px;
+        left: 0px;
+
+        visibility: visible;
+        position: absolute;
+        content: "...";
+    }
 }
 
 /* status border */
