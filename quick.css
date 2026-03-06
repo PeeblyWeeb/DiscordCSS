@@ -4,6 +4,8 @@
 /* config */
 :root {
     --server-sidebar-width: 72px;
+    /* compact mode value */
+    /* --server-sidebar-width: 64px; */
     --custom-font-family: "Torus";
     /* --custom-font-family: unset !important; */
 }
@@ -39,7 +41,14 @@ svg[class*="thumb_"] > rect {
 
 /* transparency */
 body {
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    /* transition: background-color 500ms; */
+    background-color: black;
+    &:has(div[class*="winButtons"]) {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+    /* &:hover {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    } */
 }
 nav[aria-label="Private channels"],
 nav[aria-label*="(server)"] {
@@ -321,4 +330,86 @@ span[class*="userTagUsername"]:not(:hover) {
     }
 } */
 
+@keyframes fade-in {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slidefade-from-bottom {
+    from {
+        transform: translateY(25px);
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* customize the discord loader */
+div[class*="notAppAsidePanel"] {
+
+    &:has(div[style*="connecting-container"]) {
+        div[class*="app__"] {
+            opacity: 0;
+        }
+    }
+    
+    div[class*="app__"] {
+        transition: opacity 200ms;
+    }
+}
+
+div[style*="connecting-container"] {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.2);
+    animation: fade-in 200ms forwards;
+
+    > div[class*="problems"] {
+        display: none;
+    }
+    > div[class*="content"] {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+        animation: slidefade-from-bottom 200ms forwards ease-in-out;
+    }
+    > div[class*="content"]::before {
+        display: block;
+        content: "";
+        color: white;
+        aspect-ratio: 1/1;
+        height: 300px;
+        width: 320px;
+        background-size: cover;
+        background-image: url("https://fs.salamithecat.com/shr/public/dance.gif") !important;
+    }
+    div[class*="text"] {
+        display: none;
+    }
+
+    video {
+        display: none;
+    }
+    video::after {
+        content: "";
+        position: absolute;
+        width:80px;
+        height:80px;
+        /* background-color: black; */
+        z-index: 1000;
+        background:url("https://example.com/replacement.gif") center/contain no-repeat !important;
+    }
+}
+
+div.vc-notification {
+    background-color: black !important;
+}
 
