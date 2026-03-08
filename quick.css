@@ -1,101 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
-/* config */
 :root {
-    --server-sidebar-width: 72px;
-    /* compact mode value */
-    /* --server-sidebar-width: 64px; */
-    --custom-font-family: "Torus";
-    /* --custom-font-family: unset !important; */
+    --custom-font-family: Torus;
 }
 
-@font-face {
-    font-family: "Torus";
-    src: url("https://corsproxy.io/?url=https://osu.ppy.sh/assets/fonts/Torus-Regular.734ed3ae.otf") format("opentype");
-    font-weight: normal;
-    font-style: normal;
-}
-
-/*** we love squares ***/
 * {
-    border-radius: 0px !important;
-    font-family: var(--custom-font-family);
-}
-/* make profile pictures square in calls */
-foreignObject[mask="url(#svg-mask-avatar-default)"] {
-    mask: none !important;
-}
-/* make servers and server folders square */
-svg:has(div[data-list-item-id^="guildsnav"]) > mask {
-    display: none;
-}
-svg:has(div[class*="folderButton"]) > mask {
-    display: none;
-}
-/* make switches square */
-svg[class*="thumb_"] > rect {
-    /* yeah ik the ide says this is a warning, it does exist though */
-    rx: 0;
-}
+    /* osu! font */
+    @font-face {
+        src: url("https://fs.salamithecat.com/shr/public/Torus-Regular.734ed3ae.otf") format("opentype");
 
-/* transparency */
-body {
-    /* transition: background-color 500ms; */
-    background-color: black;
-    &:has(div[class*="winButtons"]) {
-        background-color: rgba(0, 0, 0, 0.5) !important;
+        font-family: "Torus";
+        font-weight: 400;
+        font-style: normal;
     }
-    /* &:hover {
-        background-color: rgba(0, 0, 0, 0.5) !important;
-    } */
-}
-nav[aria-label="Private channels"],
-nav[aria-label*="(server)"] {
-    background: transparent !important;
-    --background-base-lowest: transparent !important;
-}
+    font-family: var(--custom-font-family);
 
-section[aria-label*="User status and settings"] div[class*="activityPanel"] {
-    background-color: transparent;
-}
+    /* squares are better */
+    border-radius: 0px !important;
 
-div[class*="sidebarList"] {
-    background-color: rgba(0, 0, 0, 0.2);
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-}
-div[class*="page"] {
-    background-color: rgba(0, 0, 0, 0.4);
-}
-* {
+    /* lets get some transparency going */
     --background-base-lowest: transparent !important;
     --background-base-lower: transparent !important;
     --background-base-low: transparent !important;
     --custom-channel-members-bg: transparent !important;
     --__header-bar-background: transparent !important;
     --chat-background-default: transparent !important;
-    /* --background-surface-high: transparent !important; */
-    /* scrollbar-color: transparent rbga(255, 255, 255, 0.2) !important;
-    scrollbar-width: thin !important;
-    scrollbar-arrow-color: transparent !important; */
 }
-div[class*="callContainer"] {
-    --black: transparent !important;
-    background: transparent !important;
-    /* filter: drop-shadow(0px 0px 5px black); */
+
+/* darken the app background now that it's transparent */
+body {
+    /* default to black for non-transparency supporting clients (web) */
+    background-color: black;
+
+    /* only apply transparency if we're on a desktop client */
+    &:has(div[class*="winButtons"]) {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
 }
-div[class*="wrapper"]:has(div[class*="callContainer"]) {
-    --background-base-lowest: rgba(0, 0, 0, 0.4) !important;
+
+/* nicely add some "depth" to the app by darkening the inner parts */
+div[class*="sidebarList"] {
+    background-color: rgba(0, 0, 0, 0.2);
+
+    /* fix sidebar list behaving weirdly with transparency */
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
 }
-/* transparency: user settings */
+div[class*="page"] {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* lets make the call background transparent too yk */
+div[class*="wrapper"]:has(> div[class*="callContainer"]) {
+    --black: transparent;
+    --background-surface-high: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* make the settings menu background work with transparency */
+/*> normal version: */
 div[data-mana-component="layer-modal"] {
-    backdrop-filter: blur(16px);
+    background: rgba(0,0,0,1);
 }
-/* transparency: non-nitro profile popouts */
+
+/*> performance heavy version: */
+/* div[class^="app"] {
+    transition: all 250ms;
+}
+
+div[class^="scrim"] {
+    opacity: 0 !important;
+}
+
+div[class*="notAppAsidePanel"]:has(> * > * > * > * > * > div[data-mana-component="layer-modal"]) {
+    div[class^="app"] {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+}
+div[data-mana-component="layer-modal"] {
+    background: rgba(0,0,0,0.4);
+} */
+
+/* make the non-nitro user profile popout work with transparency */
 div[class*="user-profile-modal-v2"] {
-    /* this value is color picked and should be the normal default */
+    /* ps: this value is color picked and should be the normal default */
     --background-base-lower: #070709 !important;
+}
+
+/* make vencord notifications work with transparency */
+div.vc-notification {
+    background-color: black !important;
 }
 
 /* make the server sidebar take up all vertical space */
@@ -103,84 +95,40 @@ nav[aria-label="Servers sidebar"] {
     margin-bottom: 0;
 }
 
-/* hide extra buttons in dm list */
-ul[aria-label="Direct Messages"] {
-
-    >div:has(a[href="/store"]),
-    >li:has(a[href="/shop"]),
-    >div:has(a[href="/quest-home"]) {
-        display: none;
-    }
+/*** major user area tweaks ***/
+/** fix sidebar list slightly leaking into the user area **/
+div[data-list-id*="private-channels"],
+nav[aria-label*="(server)"] {
+    margin-bottom: var(--custom-app-panels-height, 0);
+    padding-bottom: 0px;
+}
+div#channels {
+    margin-bottom: 0;
 }
 
-nav[aria-label="Private channels"] {
-    >div[class*="searchBar"] {
-        display: none;
-    }
-}
-
-/* squish user area back into dm list */
 section[aria-label="User status and settings"] {
+    /** squish the user area back into the dm list area **/
+    /* UI Density: Compact */
+    /* --server-sidebar-width: 64px; */
+    /* UI Density: Default */
+    --server-sidebar-width: 72px;
+    /* UI Density: Spacious */
+    /* --server-sidebar-width: 80px; */
+
     width: calc(100% - var(--server-sidebar-width));
     bottom: 0px;
     left: var(--server-sidebar-width);
 
-    /* border-left: none; */
     border-right: none;
     border-bottom: none;
+    border-left: transparent 2px solid;
 
-    /* keep alignment now that the left border is gone */
-    /* margin-left: 1px; */
-    border-left: transparent 2px solid
-}
+    /** overlay mute and deafen buttons over the profile picture 
+     * (this css assumes you use hotkeys for mute and deafen)
+    **/
 
-div[data-list-id*="private-channels"] {
-    margin-bottom: var(--custom-app-panels-height, 0);
-}
-
-/* hide unused buttons from the user area */
-section[aria-label="User status and settings"] div[class*="actionButtons"] {
-    :nth-child(5) {
-        /* Start an activity */
-        display: none;
-    }
-
-    span {
-        /* HACK: "Open soundboard" is a span, for whatever reason, just delete them all!! */
-        display: none;
-    }
-}
-
-/* make the profile section of the user area fill the whole container */
-section[aria-label="User status and settings"]>div[class*="container"] {
-    padding: 0;
-    gap: 0;
-
-    div[class*="accountPopoutButtonWrapper"] {
-        -webkit-margin-start: 0;
-        margin-inline-start: 0;
-
-        padding: 0px;
-        padding-inline: 12px;
-        display: flex;
-        height: 100%;
-        width: 266px !important;
-
-        g {
-            /* status icon */
-            display: none;
-        }
-
-        div[class*="avatar"] foreignObject {
-            /* status mask */
-            mask: none;
-        }
-    }
-}
-
-/* mute and deafen buttons overlay on profile */
-section[aria-label="User status and settings"] {
-    --animation-speed: 150ms;
+    /*> performance heavy */
+    /* --animation-speed: 150ms;
     svg[class*="avatarDecorationContainer"] {
         transition: opacity var(--animation-speed), transform var(--animation-speed);
     }
@@ -189,54 +137,84 @@ section[aria-label="User status and settings"] {
             opacity: 0;
             transform: scale(0.8);
         }
-    }
-}
-section[aria-label="User status and settings"] div[class*="buttons"] {
-    pointer-events: none;
-    gap: 0;
+    } */
+    div[class*="buttons"] {
+        gap: 0;
 
-    &:has(button[aria-label="Deafen"][aria-checked="true"]) {
-        button[aria-label="Mute"] div[class*="lottieIcon"] {
-            transform: scale(0.8);
-            opacity: 0;
+        button[aria-label="Input Options"],
+        button[aria-label="Output Options"] {
+            display: none;
+        }
+
+        button[aria-label="Mute"],
+        button[aria-label="Deafen"] {
+            pointer-events: none;
+
+            color: var(--icon-voice-muted) !important;
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            transition: all var(--animation-speed);
+
+            &[aria-checked="false"] {
+                opacity: 0;
+            }
+            &[aria-checked="true"][aria-label="Mute"] {
+                backdrop-filter: brightness(30%);
+            }
+        }
+
+        button[aria-label="User Settings"] {
+            pointer-events: auto;
+            width: 56px;
+            height: 56px;
+        }
+        
+        /*> performance heavy */
+        /* &:has(> div > button[aria-label="Deafen"][aria-checked="true"]) {
+            button[aria-label="Mute"] > div > div[class*="lottieIcon"] {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+        } */
+    }
+
+    /** when in voice calls hide unused buttons **/
+    div[class*="actionButtons"] {
+        :nth-child(5) {
+            /* Start an activity */
+            display: none;
+        }
+
+        span {
+            /* HACK: "Open soundboard" is a span, for whatever reason, just delete them all!! */
+            display: none;
         }
     }
 
-    button[aria-label="Mute"] {
-        &[aria-checked="true"] {
-            backdrop-filter: brightness(30%);
+    /** expand user profile in the user area **/
+    > div[class*="container"] {
+        padding: 0;
+        gap: 0;
+
+        div[class*="accountPopoutButtonWrapper"] {
+            -webkit-margin-start: 0;
+            margin-inline-start: 0;
+
+            padding: 0px;
+            padding-inline: 12px;
+            display: flex;
+            height: 100%;
+            /* width: 266px !important; */
+
+    /** hide the status icon from the user pfp **/
+            div[class*="avatar"] foreignObject {
+                mask: none;
+            }
+            g {
+                display: none;
+            }
         }
-        div[class*="lottieIcon"] {
-            transition: opacity var(--animation-speed), transform var(--animation-speed) ease-out;
-        }
-    }
-
-    button[aria-label="Deafen"] {
-        background: transparent;
-    }
-
-    button[aria-label="Mute"],
-    button[aria-label="Deafen"] {
-        color: var(--icon-voice-muted) !important;
-        position: absolute;
-        left: 12px;
-        top: 12px;
-        transition: all var(--animation-speed);
-
-        &[aria-checked="false"] {
-            opacity: 0%;
-        }
-    }
-
-    button[aria-label="Input Options"],
-    button[aria-label="Output Options"] {
-        display: none;
-    }
-
-    button[aria-label="User Settings"] {
-        pointer-events: auto;
-        width: 56px;
-        height: 56px;
     }
 }
 
@@ -260,13 +238,6 @@ form[class*="formWithLoadedChatInput"] div[class*="channelTextArea"] {
 }
 ol[data-list-id*="chat-messages"] div[class*="scrollerSpacer"] {
     height: 24px;
-}
-
-/* fix double border at the top of the call container in dms and instead apply it to the bottom*/
-div[class*="callContainer"]:has(div[class*="videoFrame"]),
-div[class*="callContainer"]:has(div[class*="voiceCallWrapper"]) {
-    border-top: none !important;
-    box-shadow: var(--shadow-border), var(--shadow-high);
 }
 
 /* hide unwanted chat bar buttons */
@@ -299,75 +270,12 @@ span[class*="userTagUsername"]:not(:hover) {
     }
 }
 
-/* status border */
-/* svg:has(*[mask="url(#svg-mask-avatar-status-round-32)"]) {
-    g {
-        clip-path: polygon(
-            0% 0%,
-            0% 100%,
-            1px 100%,
-            1px 1px,
-            32px 1px,
-            32px 32px,
-            1px 32px,
-            1px 100%,
-            100% 100%,
-            100% 0%
-        );
-    }
-    *[mask="url(#svg-mask-avatar-status-round-32)"] {
-        mask: none;
-    }
-    *[mask*="url(#svg-mask-status-"] {
-        z-index: 0 !important;
-        --border-size: 1px;
-
-        mask: none;
-        width: calc(32px + var(--border-size));
-        height: calc(32px + var(--border-size));
-        x: 0;
-        y: 0;
-    }
-} */
-
-@keyframes fade-in {
-    from {
-        opacity: 0
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slidefade-from-bottom {
-    from {
-        transform: translateY(25px);
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 /* customize the discord loader */
-div[class*="notAppAsidePanel"] {
-
-    &:has(div[style*="connecting-container"]) {
-        div[class*="app__"] {
-            opacity: 0;
-        }
-    }
-    
-    div[class*="app__"] {
-        transition: opacity 200ms;
-    }
-}
-
 div[style*="connecting-container"] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.5);
     animation: fade-in 200ms forwards;
 
     > div[class*="problems"] {
@@ -398,18 +306,39 @@ div[style*="connecting-container"] {
     video {
         display: none;
     }
-    video::after {
-        content: "";
-        position: absolute;
-        width:80px;
-        height:80px;
-        /* background-color: black; */
-        z-index: 1000;
-        background:url("https://example.com/replacement.gif") center/contain no-repeat !important;
+}
+
+/* hide extra buttons in dm list */
+ul[aria-label="Direct Messages"] {
+
+    >div:has(a[href="/store"]),
+    >li:has(a[href="/shop"]),
+    >div:has(a[href="/quest-home"]) {
+        display: none;
     }
 }
 
-div.vc-notification {
-    background-color: black !important;
+/* make switches square */
+svg[class*="thumb_"] > rect {
+    /* yeah ik the ide says this is a warning, it does exist though */
+    rx: 0;
 }
+
+/* make profile pictures square in calls */
+foreignObject[mask="url(#svg-mask-avatar-default)"] {
+    mask: none !important;
+}
+
+/* make servers and server folders square */
+svg:has(div[data-list-item-id^="guildsnav"]) > mask {
+    display: none;
+}
+svg:has(div[class*="folderButton"]) > mask {
+    display: none;
+}
+
+
+
+
+
 
