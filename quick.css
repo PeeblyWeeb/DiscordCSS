@@ -337,6 +337,14 @@ svg:has(div[class*="folderButton"]) > mask {
     display: none;
 }
 
+/* make chat sidebar work with transparency when floating */
+div[class*="chatTarget"] {
+    margin-top: 1px;
+    border-left: 1px solid var(--app-frame-border);
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(16px);
+    box-shadow: #070709 1px 1px 20px;
+}
 
 
 
