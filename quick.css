@@ -6,7 +6,7 @@
 * {
     /* osu! font */
     @font-face {
-        src: url("https://github.com/PeeblyWeeb/DiscordCSS/blob/main/torus.otf") format("opentype");
+        src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/torus.otf") format("opentype");
 
         font-family: "Torus";
         font-weight: 400;
