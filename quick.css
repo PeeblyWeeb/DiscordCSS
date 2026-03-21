@@ -1,12 +1,12 @@
 :root {
     --custom-font-family: Torus;
+    --enable-transparency: 0;
 }
 
 * {
-
     /* osu! font */
     @font-face {
-        src: url("https://fs.salamithecat.com/shr/public/Torus-Regular.734ed3ae.otf") format("opentype");
+        src: url("https://github.com/PeeblyWeeb/DiscordCSS/blob/main/torus.otf") format("opentype");
 
         font-family: "Torus";
         font-weight: 400;
@@ -19,6 +19,7 @@
     border-radius: 0px !important;
 
     /* lets get some transparency going */
+
     --background-base-lowest: transparent !important;
     --background-base-lower: transparent !important;
     --background-base-low: transparent !important;
@@ -378,4 +379,20 @@ div[class*="chatTarget"] {
 /* make component v2 containers transparent */
 div[class*="isComponentsV2"]>div[class*="container"] {
     --background-surface-high: rgba(0, 0, 0, 0.35)
+}
+
+/* make hidden media attachments work with transparency */
+div[class*="spoilerContainer"] {
+    background: rgba(0,0,0,0.2);
+}
+
+div[class*="spoilerInnerContainer"][aria-hidden="true"] {
+    filter: none !important;
+    background-color: transparent;
+    border: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+
+    img {
+        display: none !important;
+    }
 }
