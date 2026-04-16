@@ -4,6 +4,7 @@
 }
 
 * {
+
     /* osu! font */
     @font-face {
         src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/torus.otf") format("opentype");
@@ -47,9 +48,19 @@ div[class*="sidebarList"] {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
 }
-
-div[class*="page"] {
+section[aria-label="Channel header"] {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+main[class*="chatContent"][aria-label*="(channel)"] {
     background-color: rgba(0, 0, 0, 0.4);
+}
+main[class*="chatContent"] > div[class*="messagesWrapper"] {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+
+    box-shadow: inset rgba(0,0,0,0.3) 0px 0px 15px;
+}
+div[class*="members_"] {
+    background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
 /* lets make the call background transparent too yk */
@@ -129,7 +140,6 @@ section[aria-label="User status and settings"] {
 
     border-right: none;
     border-bottom: none;
-    border-left: transparent 1px solid;
 
     /** overlay mute and deafen buttons over the profile picture 
      * (this css assumes you use hotkeys for mute and deafen)
@@ -176,7 +186,7 @@ section[aria-label="User status and settings"] {
             }
         }
 
-        button[aria-label="User Settings"] {
+        button:not([aria-label="Mute"]):not([aria-label="Deafen"]) {
             pointer-events: auto;
             width: 56px;
             height: 56px;
@@ -250,7 +260,7 @@ form[class*="formWithLoadedChatInput"] div[class*="channelTextArea"] {
     border-inline: none;
 
     /* move autocomplete down to follow */
-    > div[class*="autocomplete"] {
+    >div[class*="autocomplete"] {
         left: 0;
         bottom: calc(100% + 1px);
         box-shadow: none;
@@ -383,7 +393,7 @@ div[class*="isComponentsV2"]>div[class*="container"] {
 
 /* make hidden media attachments work with transparency */
 div[class*="spoilerContainer"] {
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 div[class*="spoilerInnerContainer"][aria-hidden="true"] {
@@ -395,4 +405,15 @@ div[class*="spoilerInnerContainer"][aria-hidden="true"] {
     img {
         display: none !important;
     }
+}
+
+/* make reply bar and thread bar work with transparency */
+div[class*="channelTextArea"]>div[class*="stackedBars"] {
+    background: transparent !important;
+}
+
+/* make call container work with transparency */
+div[class*="callContainer"] {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
+    background-color: rgba(0, 0, 0, 0.4);
 }
