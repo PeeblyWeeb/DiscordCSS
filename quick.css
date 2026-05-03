@@ -17,7 +17,7 @@
     font-family: var(--custom-font-family);
 
     /* squares are better */
-    border-radius: 0px !important;
+    border-radius: 0% !important;
 
     /* lets get some transparency going */
 
@@ -48,20 +48,28 @@ div[class*="sidebarList"] {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
 }
+
 section[aria-label="Channel header"] {
     background-color: rgba(0, 0, 0, 0.2) !important;
 }
+
 main[class*="chatContent"][aria-label*="(channel)"] {
     background-color: rgba(0, 0, 0, 0.4);
 }
-main[class*="chatContent"] > div[class*="messagesWrapper"] {
+main[class*="chatContent"]>div[class*="messagesWrapper"] {
     background-color: rgba(0, 0, 0, 0.2) !important;
 
-    box-shadow: inset rgba(0,0,0,0.3) 0px 0px 15px;
+    box-shadow: inset rgba(0, 0, 0, 0.3) 0px 0px 15px;
 }
-div[class*="members_"] {
+
+div[class*="members_"][aria-orientation="vertical"] {
     background-color: rgba(0, 0, 0, 0.2) !important;
 }
+
+main[class*="container"] {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 
 /* lets make the call background transparent too yk */
 div[class*="wrapper"]:has(> div[class*="callContainer"]) {
@@ -112,10 +120,24 @@ nav[aria-label="Servers sidebar"] {
 
 /*** major user area tweaks ***/
 /** fix sidebar list slightly leaking into the user area **/
-div[data-list-id*="private-channels"],
 nav[aria-label*="(server)"] {
-    margin-bottom: var(--custom-app-panels-height, 0);
+    padding-bottom: var(--custom-app-panels-height);
+
+    div[class*="container"] > div[class*="containerPadding"] {
+        padding: 0px;
+
+        > div[class*="bar"] {
+            box-shadow: none;
+        }
+    }
+}
+nav[aria-label="Private channels"] {
     padding-bottom: 0px;
+    margin-bottom: var(--custom-app-panels-height);
+
+    div[data-list-id*="private-channels"] {
+        margin-bottom: 0px;
+    }
 }
 
 div#channels {
@@ -268,6 +290,15 @@ form[class*="formWithLoadedChatInput"] div[class*="channelTextArea"] {
     }
 }
 
+form[class*="formWithLoadedChatInput"] div[class*="typing_"] {
+    padding-left: 3.5rem;
+    top: 0px;
+
+    span {
+        margin-inline-start: 8px;
+    }
+}
+
 ol[data-list-id*="chat-messages"] div[class*="scrollerSpacer"] {
     height: 24px;
 }
@@ -412,8 +443,14 @@ div[class*="channelTextArea"]>div[class*="stackedBars"] {
     background: transparent !important;
 }
 
-/* make call container work with transparency */
+
 div[class*="callContainer"] {
+    /* make call container work with transparency */
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
+
+    /* fix call container border */
+    border-top: none !important;
+    border-bottom: 1px solid var(--app-frame-border)
 }
+
