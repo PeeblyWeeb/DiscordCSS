@@ -1,3 +1,6 @@
+<img width="1921" height="1075" alt="image" src="https://github.com/user-attachments/assets/23023f5f-ef4a-4484-bede-f9ff59a9d56a" />
+<sub>preview with `quick.css` & `links.css` fully enabled</sub>
+
 # How to use (Vencord Instructions)
 
 1. Navigate to `User Settings > Themes (under vencord) > Online Themes`
