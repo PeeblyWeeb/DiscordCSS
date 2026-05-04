@@ -8,7 +8,7 @@ div[id^=message-content] > a[href^="https://cdn.discordapp.com"],
 div[id^=message-content] > a[href^="https://dis.gd"], 
 div[id^=message-content] > a[href^="https://discord.gg"]
 {
-  color: var(--bg-brand);
+  color: var(--background-brand);
 }
 /* Makes spotify links green */
 div[id^=message-content] > a[href^="https://spotify.com"], 
