@@ -1,117 +1,305 @@
+/* Prevent re-rendering every message on scroll */
+[class*="scroller_"] {
+  will-change: scroll-position;
+}
+
 :root {
+    --prefer-squares: true;
+    --use-transparency: true;
+
+    --prefer-custom-font: true;
     --custom-font-family: Torus;
-    --enable-transparency: 0;
+
+    --compact-user-area-buttons: true;
 }
 
-* {
-
-    /* osu! font */
-    @font-face {
-        src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/torus.otf") format("opentype");
-
-        font-family: "Torus";
-        font-weight: 400;
-        font-style: normal;
+@container style(--prefer-squares: true) {
+    * {
+        /* squares are better */
+        border-radius: 0 !important;
     }
 
-    font-family: var(--custom-font-family);
+    /* make switches square */
+    svg[class*="thumb_"]>rect {
+        /* yeah ik the ide says this is a warning, it does exist though */
+        rx: 0;
+    }
 
-    /* squares are better */
-    border-radius: 0% !important;
+    /* make profile pictures square in calls */
+    foreignObject[mask="url(#svg-mask-avatar-default)"] {
+        mask: none !important;
+    }
 
-    /* lets get some transparency going */
+    /* make servers and server folders square */
+    svg:has(div[data-list-item-id^="guildsnav"])>mask {
+        display: none;
+    }
 
-    --background-base-lowest: transparent !important;
-    --background-base-lower: transparent !important;
-    --background-base-low: transparent !important;
-    --custom-channel-members-bg: transparent !important;
-    --__header-bar-background: transparent !important;
-    --chat-background-default: transparent !important;
+    svg:has(div[class*="folderButton"])>mask {
+        display: none;
+    }
+
+    div[class*="accountPopoutButtonWrapper"] {
+        /** hide the status icon from the user pfp - doesn't work well with squares**/
+        div[class*="avatar"] foreignObject {
+            mask: none;
+        }
+
+        g {
+            display: none;
+        }
+    }
+                    
 }
 
-/* darken the app background now that it's transparent */
-body {
-    /* default to black for non-transparency supporting clients (web) */
-    background-color: black;
+/* transparency wooo */
+@container style(--use-transparency: true) {
+    * {
+        --background-base-lowest: transparent !important;
+        --background-base-lower: transparent !important;
+        --background-base-low: transparent !important;
+        --custom-channel-members-bg: transparent !important;
+        --__header-bar-background: transparent !important;
+        --chat-background-default: transparent !important;
+    }
 
-    /* only apply transparency if we're on a desktop client */
-    &:has(div[class*="winButtons"]) {
-        background-color: rgba(0, 0, 0, 0.5) !important;
+    /* darken the app background now that it's transparent */
+    body {
+        /* default to black for non-transparency supporting clients (web) */
+        background-color: black;
+
+        /* only apply transparency if we're on a desktop client */
+        &:has(div[class*="winButtons"]) {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+    }
+
+    /* nicely add some "depth" to the app by darkening the inner parts */
+    div[class*="sidebarList"] {
+        background-color: rgba(0, 0, 0, 0.2);
+
+        /* fix sidebar list behaving weirdly with transparency */
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+
+    section[aria-label="Channel header"] {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    main[class*="chatContent"][aria-label*="(channel)"] {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    main[class*="chatContent"]>div[class*="messagesWrapper"] {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+
+        box-shadow: inset rgba(0, 0, 0, 0.3) 0px 0px 15px;
+    }
+
+    div[class*="members_"][aria-orientation="vertical"] {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    main[class*="container"] {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* make the settings menu background work with transparency */
+    /*> normal version: */
+    div[data-mana-component="layer-modal"] {
+        background: rgba(0, 0, 0, 1);
+    }
+
+    /*> performance heavy version: */
+    /* div[class^="app"] {
+        transition: all 250ms;
+    }
+
+    div[class^="scrim"] {
+        opacity: 0 !important;
+    }
+
+    div[class*="notAppAsidePanel"]:has(> * > * > * > * > * > div[data-mana-component="layer-modal"]) {
+        div[class^="app"] {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+    }
+    div[data-mana-component="layer-modal"] {
+        background: rgba(0,0,0,0.4);
+    } */
+
+    /* lets make the call background transparent too yk */
+    div[class*="wrapper"]:has(> div[class*="callContainer"]) {
+        --black: transparent;
+        --background-surface-high: rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* make the non-nitro user profile popout work with transparency */
+    div[class*="user-profile-modal-v2"] {
+        /* ps: this value is color picked and should be the normal default */
+        --background-base-lower: #070709 !important;
+    }
+
+    /* make vencord notifications work with transparency */
+    div.vc-notification {
+        background-color: black !important;
+    }
+
+    /** make activity panel work with transparency **/
+    section[aria-label="User status and settings"] > div[class*="activityPanel"] {
+        --background-surface-high: transparent
+    }
+
+    /* make chat sidebar work with transparency when floating */
+    div[class*="chatTarget"] {
+        margin-top: 1px;
+        border-left: 1px solid var(--app-frame-border);
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(16px);
+        box-shadow: #070709 1px 1px 20px;
+    }
+
+    /* make component v2 containers transparent */
+    div[class*="isComponentsV2"]>div[class*="container"] {
+        --background-surface-high: rgba(0, 0, 0, 0.35)
+    }
+
+    /* make hidden media attachments work with transparency */
+    div[class*="spoilerContainer"] {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    div[class*="spoilerInnerContainer"][aria-hidden="true"] {
+        filter: none !important;
+        background-color: transparent;
+        border: 1px solid var(--border-subtle);
+        box-sizing: border-box;
+
+        img {
+            display: none !important;
+        }
+    }
+
+    /* make reply bar and thread bar work with transparency */
+    div[class*="channelTextArea"]>div[class*="stackedBars"] {
+        background: transparent !important;
+    }
+
+
+    div[class*="callContainer"] {
+        /* make call container work with transparency */
+        box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+
+        /* fix call container border */
+        border-top: none !important;
+        border-bottom: 1px solid var(--app-frame-border)
     }
 }
 
-/* nicely add some "depth" to the app by darkening the inner parts */
-div[class*="sidebarList"] {
-    background-color: rgba(0, 0, 0, 0.2);
+@container style(--prefer-custom-font: true) {
+    * {
+        /* osu! font */
+        @font-face {
+            src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/torus.otf") format("opentype");
 
-    /* fix sidebar list behaving weirdly with transparency */
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-}
+            font-family: "Torus";
+            font-weight: 400;
+            font-style: normal;
+        }
 
-section[aria-label="Channel header"] {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-main[class*="chatContent"][aria-label*="(channel)"] {
-    background-color: rgba(0, 0, 0, 0.4);
-}
-main[class*="chatContent"]>div[class*="messagesWrapper"] {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-
-    box-shadow: inset rgba(0, 0, 0, 0.3) 0px 0px 15px;
-}
-
-div[class*="members_"][aria-orientation="vertical"] {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-main[class*="container"] {
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-
-/* lets make the call background transparent too yk */
-div[class*="wrapper"]:has(> div[class*="callContainer"]) {
-    --black: transparent;
-    --background-surface-high: rgba(0, 0, 0, 0.4) !important;
-}
-
-/* make the settings menu background work with transparency */
-/*> normal version: */
-div[data-mana-component="layer-modal"] {
-    background: rgba(0, 0, 0, 1);
-}
-
-/*> performance heavy version: */
-/* div[class^="app"] {
-    transition: all 250ms;
-}
-
-div[class^="scrim"] {
-    opacity: 0 !important;
-}
-
-div[class*="notAppAsidePanel"]:has(> * > * > * > * > * > div[data-mana-component="layer-modal"]) {
-    div[class^="app"] {
-        opacity: 0;
-        transform: scale(0.98);
+        font-family: var(--custom-font-family);
     }
 }
-div[data-mana-component="layer-modal"] {
-    background: rgba(0,0,0,0.4);
-} */
 
-/* make the non-nitro user profile popout work with transparency */
-div[class*="user-profile-modal-v2"] {
-    /* ps: this value is color picked and should be the normal default */
-    --background-base-lower: #070709 !important;
+@container style(--compact-user-area-buttons: true) {
+    section[aria-label="User status and settings"] {
+        /** overlay mute and deafen buttons over the profile picture 
+        * (this css assumes you use hotkeys for mute and deafen)
+        **/
+
+        /*> performance heavy */
+        --animation-speed: 150ms;
+
+        svg[class*="avatarDecorationContainer"] {
+            transition: opacity var(--animation-speed), transform var(--animation-speed);
+        }
+
+        /* 
+        &:has(button[aria-checked="true"]) {
+            svg[class*="avatarDecorationContainer"] {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        } */
+        div[class*="buttons"] {
+            gap: 0;
+
+            button[aria-label="Input Options"],
+            button[aria-label="Output Options"] {
+                display: none;
+            }
+
+            button[aria-label="Mute"],
+            button[aria-label="Deafen"] {
+                pointer-events: none;
+
+                color: var(--icon-voice-muted) !important;
+                position: absolute;
+                left: 12px;
+                top: 12px;
+                transition: all var(--animation-speed);
+
+                &[aria-checked="false"] {
+                    opacity: 0;
+                }
+
+                &[aria-checked="true"][aria-label="Mute"] {
+                    backdrop-filter: brightness(30%);
+                }
+            }
+
+            button:not([aria-label="Mute"]):not([aria-label="Deafen"]) {
+                pointer-events: auto;
+                width: 56px;
+                height: 56px;
+            }
+
+            /*> performance heavy */
+            /* &:has(> div > button[aria-label="Deafen"][aria-checked="true"]) {
+                button[aria-label="Mute"] > div > div[class*="lottieIcon"] {
+                    transform: scale(0.8);
+                    opacity: 0;
+                }
+            } */
+        }
+
+        /** expand user profile in the user area **/
+        >div[class*="container"] {
+            border-left: 1px solid transparent;
+            padding: 0;
+            gap: 0;
+
+            div[class*="accountPopoutButtonWrapper"] {
+                -webkit-margin-start: 0;
+                margin-inline-start: 0;
+
+                padding: 0px;
+                padding-inline: 12px;
+                display: flex;
+                height: 100%;
+                /* width: 266px !important; */
+            }
+        }
+    }
 }
 
-/* make vencord notifications work with transparency */
-div.vc-notification {
-    background-color: black !important;
-}
+
+
+
+
+
 
 /* make the server sidebar take up all vertical space */
 nav[aria-label="Servers sidebar"] {
@@ -163,66 +351,6 @@ section[aria-label="User status and settings"] {
     border-right: none;
     border-bottom: none;
 
-    /** overlay mute and deafen buttons over the profile picture 
-     * (this css assumes you use hotkeys for mute and deafen)
-    **/
-
-    /*> performance heavy */
-    --animation-speed: 150ms;
-
-    svg[class*="avatarDecorationContainer"] {
-        transition: opacity var(--animation-speed), transform var(--animation-speed);
-    }
-
-    /* 
-    &:has(button[aria-checked="true"]) {
-        svg[class*="avatarDecorationContainer"] {
-            opacity: 0;
-            transform: scale(0.8);
-        }
-    } */
-    div[class*="buttons"] {
-        gap: 0;
-
-        button[aria-label="Input Options"],
-        button[aria-label="Output Options"] {
-            display: none;
-        }
-
-        button[aria-label="Mute"],
-        button[aria-label="Deafen"] {
-            pointer-events: none;
-
-            color: var(--icon-voice-muted) !important;
-            position: absolute;
-            left: 12px;
-            top: 12px;
-            transition: all var(--animation-speed);
-
-            &[aria-checked="false"] {
-                opacity: 0;
-            }
-
-            &[aria-checked="true"][aria-label="Mute"] {
-                backdrop-filter: brightness(30%);
-            }
-        }
-
-        button:not([aria-label="Mute"]):not([aria-label="Deafen"]) {
-            pointer-events: auto;
-            width: 56px;
-            height: 56px;
-        }
-
-        /*> performance heavy */
-        /* &:has(> div > button[aria-label="Deafen"][aria-checked="true"]) {
-            button[aria-label="Mute"] > div > div[class*="lottieIcon"] {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-        } */
-    }
-
     /** when in voice calls hide unused buttons **/
     div[class*="actionButtons"] {
         :nth-child(5) {
@@ -234,38 +362,6 @@ section[aria-label="User status and settings"] {
             /* HACK: "Open soundboard" is a span, for whatever reason, just delete them all!! */
             display: none;
         }
-    }
-
-    /** expand user profile in the user area **/
-    >div[class*="container"] {
-        border-left: 1px solid transparent;
-        padding: 0;
-        gap: 0;
-
-        div[class*="accountPopoutButtonWrapper"] {
-            -webkit-margin-start: 0;
-            margin-inline-start: 0;
-
-            padding: 0px;
-            padding-inline: 12px;
-            display: flex;
-            height: 100%;
-            /* width: 266px !important; */
-
-            /** hide the status icon from the user pfp **/
-            div[class*="avatar"] foreignObject {
-                mask: none;
-            }
-
-            g {
-                display: none;
-            }
-        }
-    }
-
-    /** make activity panel work with transparency **/
-    >div[class*="activityPanel"] {
-        --background-surface-high: transparent
     }
 }
 
@@ -388,69 +484,5 @@ ul[aria-label="Direct Messages"] {
     }
 }
 
-/* make switches square */
-svg[class*="thumb_"]>rect {
-    /* yeah ik the ide says this is a warning, it does exist though */
-    rx: 0;
-}
 
-/* make profile pictures square in calls */
-foreignObject[mask="url(#svg-mask-avatar-default)"] {
-    mask: none !important;
-}
-
-/* make servers and server folders square */
-svg:has(div[data-list-item-id^="guildsnav"])>mask {
-    display: none;
-}
-
-svg:has(div[class*="folderButton"])>mask {
-    display: none;
-}
-
-/* make chat sidebar work with transparency when floating */
-div[class*="chatTarget"] {
-    margin-top: 1px;
-    border-left: 1px solid var(--app-frame-border);
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(16px);
-    box-shadow: #070709 1px 1px 20px;
-}
-
-/* make component v2 containers transparent */
-div[class*="isComponentsV2"]>div[class*="container"] {
-    --background-surface-high: rgba(0, 0, 0, 0.35)
-}
-
-/* make hidden media attachments work with transparency */
-div[class*="spoilerContainer"] {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-div[class*="spoilerInnerContainer"][aria-hidden="true"] {
-    filter: none !important;
-    background-color: transparent;
-    border: 1px solid var(--border-subtle);
-    box-sizing: border-box;
-
-    img {
-        display: none !important;
-    }
-}
-
-/* make reply bar and thread bar work with transparency */
-div[class*="channelTextArea"]>div[class*="stackedBars"] {
-    background: transparent !important;
-}
-
-
-div[class*="callContainer"] {
-    /* make call container work with transparency */
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
-    background-color: rgba(0, 0, 0, 0.6);
-
-    /* fix call container border */
-    border-top: none !important;
-    border-bottom: 1px solid var(--app-frame-border)
-}
 
