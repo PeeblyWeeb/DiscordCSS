@@ -1,6 +1,6 @@
 /* Prevent re-rendering every message on scroll */
 [class*="scroller_"] {
-  will-change: scroll-position;
+    will-change: scroll-position;
 }
 
 :root {
@@ -11,6 +11,8 @@
     --custom-font-family: Torus;
 
     --compact-user-area-buttons: true;
+
+    --truncate-chat-buttons: true;
 }
 
 @container style(--prefer-squares: true) {
@@ -40,6 +42,7 @@
     }
 
     div[class*="accountPopoutButtonWrapper"] {
+
         /** hide the status icon from the user pfp - doesn't work well with squares**/
         div[class*="avatar"] foreignObject {
             mask: none;
@@ -49,7 +52,24 @@
             display: none;
         }
     }
-                    
+
+}
+
+@container style(--truncate-chat-buttons: true) {
+    /* hide unwanted chat bar buttons */
+    div[class*="buttons"] {
+        div[class*="app-launcher-entrypoint"],
+        div[aria-label="Send a gift"] {
+            display: none;
+        }
+
+        div[class*="expression-picker-chat-input-button"] {
+            &:has(div[aria-label="Add Emoji"]),
+            &:has(div[aria-label="Open sticker picker"]) {
+                display: none;
+            }
+        }
+    }
 }
 
 /* transparency wooo */
@@ -90,6 +110,7 @@
     main[class*="chatContent"][aria-label*="(channel)"] {
         background-color: rgba(0, 0, 0, 0.4);
     }
+
     main[class*="chatContent"]>div[class*="messagesWrapper"] {
         background-color: rgba(0, 0, 0, 0.2) !important;
 
@@ -147,7 +168,7 @@
     }
 
     /** make activity panel work with transparency **/
-    section[aria-label="User status and settings"] > div[class*="activityPanel"] {
+    section[aria-label="User status and settings"]>div[class*="activityPanel"] {
         --background-surface-high: transparent
     }
 
@@ -200,6 +221,7 @@
 
 @container style(--prefer-custom-font: true) {
     * {
+
         /* osu! font */
         @font-face {
             src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/torus.otf") format("opentype");
@@ -311,14 +333,15 @@ nav[aria-label="Servers sidebar"] {
 nav[aria-label*="(server)"] {
     padding-bottom: var(--custom-app-panels-height);
 
-    div[class*="container"] > div[class*="containerPadding"] {
+    div[class*="container"]>div[class*="containerPadding"] {
         padding: 0px;
 
-        > div[class*="bar"] {
+        >div[class*="bar"] {
             box-shadow: none;
         }
     }
 }
+
 nav[aria-label="Private channels"] {
     padding-bottom: 0px;
     margin-bottom: var(--custom-app-panels-height);
@@ -399,23 +422,6 @@ ol[data-list-id*="chat-messages"] div[class*="scrollerSpacer"] {
     height: 24px;
 }
 
-/* hide unwanted chat bar buttons */
-div[class*="buttons"] {
-
-    div[class*="app-launcher-entrypoint"],
-    div:has(div[aria-label="Send a gift"]) {
-        display: none;
-    }
-
-    div[class*="expression-picker-chat-input-button"] {
-
-        &:has(div[aria-label="Add Emoji"]),
-        &:has(div[aria-label="Open sticker picker"]) {
-            display: none;
-        }
-    }
-}
-
 /* hide real usernames until hover */
 span[class*="userTagUsername"]:not(:hover) {
     position: relative;
@@ -483,6 +489,3 @@ ul[aria-label="Direct Messages"] {
         display: none;
     }
 }
-
-
-
