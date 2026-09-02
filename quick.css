@@ -3,6 +3,11 @@
     will-change: scroll-position;
 }
 
+@keyframes fade-in {
+    from { opacity: 0 }
+    to { }
+}
+
 :root {
     --prefer-squares: true;
     --use-transparency: true;
@@ -28,9 +33,28 @@
     }
 
     /* make profile pictures square in calls */
-    foreignObject[mask="url(#svg-mask-avatar-default)"] {
+    foreignObject[mask="url(#svg-mask-avatar-default)"],
+    foreignObject[mask="url(#svg-mask-avatar-call-80)"],
+    foreignObject[mask="url(#svg-mask-avatar-call-status-80)"] {
         mask: none !important;
     }
+
+    div[class*="callAvatarMaskContainer"] > div[class*="statusContainer"] {
+        width: 100% !important;
+        height: 100% !important;
+
+        background-color: rgba(255,0,0, 0.2);
+        backdrop-filter: brightness(30%);
+
+        /* fill: --red-400 !important;/ */
+        /* color: --red-400 !important; */
+
+        svg {
+            transform: scale(250%);
+            fill: var(--red-400) !important;
+        }
+    }   
+
 
     /* make servers and server folders square */
     svg:has(div[data-list-item-id^="guildsnav"])>mask {
@@ -194,8 +218,9 @@
     div[class*="spoilerInnerContainer"][aria-hidden="true"] {
         filter: none !important;
         background-color: transparent;
-        border: 1px solid var(--border-subtle);
+        /* border: 1px solid var(--border-subtle); */
         box-sizing: border-box;
+
 
         img {
             display: none !important;
@@ -409,15 +434,20 @@ form[class*="formWithLoadedChatInput"] div[class*="channelTextArea"] {
     }
 }
 
-form[class*="formWithLoadedChatInput"] div[class*="typing_"] {
-    padding-left: 3.5rem;
-    top: 0px;
-
-    span {
-        margin-inline-start: 8px;
+@keyframes fade-in-typing-background {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
     }
 }
 
+form[class*="formWithLoadedChatInput"] div[class*="typing_"] {
+    background: #191919;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+    animation: fade-in-typing-background 150ms forwards ease-out;
+}
 ol[data-list-id*="chat-messages"] div[class*="scrollerSpacer"] {
     height: 24px;
 }
@@ -468,7 +498,7 @@ div[style*="connecting-container"] {
         height: 300px;
         width: 320px;
         background-size: cover;
-        background-image: url("https://github.com/PeeblyWeeb/DiscordCSS/blob/main/dance.gif?raw=true") !important;
+        background-image: url("https://fs.salamithecat.com/shr/public/dance.gif") !important;
     }
 
     div[class*="text"] {
@@ -489,3 +519,16 @@ ul[aria-label="Direct Messages"] {
         display: none;
     }
 }
+
+/* osu! font */
+@font-face {
+    src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/minecraft-enchantment.ttf") format("truetype");
+
+    font-family: "Enchantment";
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ul[aria-label="Channels"] > div[class*="sectionDivider"] ~ * {
+    opacity: 0;
+} */
