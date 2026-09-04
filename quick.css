@@ -1,3 +1,12 @@
+/* osu! font */
+@font-face {
+    src: url("https://cdn.jsdelivr.net/gh/PeeblyWeeb/DiscordCSS@main/torus.otf") format("opentype");
+
+    font-family: "Torus";
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* Prevent re-rendering every message on scroll */
 [class*="scroller_"] {
     will-change: scroll-position;
@@ -246,16 +255,6 @@
 
 @container style(--prefer-custom-font: true) {
     * {
-
-        /* osu! font */
-        @font-face {
-            src: url("https://github.com/PeeblyWeeb/DiscordCSS/raw/refs/heads/main/torus.otf") format("opentype");
-
-            font-family: "Torus";
-            font-weight: 400;
-            font-style: normal;
-        }
-
         font-family: var(--custom-font-family);
     }
 }
