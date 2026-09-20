@@ -14,7 +14,7 @@
 2. Paste `https://raw.githubusercontent.com/PeeblyWeeb/DiscordCSS/refs/heads/main/main.css` into the text box
 3. Leave the text-box and everything should work just fine
 
-## `Quick.css`
+## this is the part you're probably looking for:
 I've also published my personal quickcss to this repository for anybody to use!
 
 The recommended way to use it is to just look through the file and pick and choose what you want and paste it into your client's quickcss.
